@@ -3,17 +3,47 @@
 This module defines a base class for our models in the clone.
 """
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class BaseModel:
     """
     The base class for all our bnb models
     """
-    def __init__(self):
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+    def __init__(self, *args, **kwargs):
+        """
+        Updating current BaseModel instance.
+
+        Args:
+            *args (any): Unutilized
+            **kwargs (dict): dict of attribute for making a new instance
+        """
+        if kwargs:
+            self.id = kwargs.get("id")
+            if not self.id:
+                raise ValueError("Missing necessary attribute: id")
+
+            self.created_at = datetime.fromisoformat(
+                kwargs.get("created_at")
+            ) or None
+
+            if not self.created_at:
+                raise ValueError("Missing necessary attribute: created_at")
+
+            self.updated_at = datetime.fromisoformat(
+                kwargs.get("updated_at")
+            ) or None
+
+            if not self.updated_at:
+                raise ValueError("Missing necessary attribute: updated_at")
+
+            for key, value in kwargs.items():
+                if key != "__class__":
+                    setattr(self, key, value)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         return "[{}] ({}) {}".format(

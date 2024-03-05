@@ -3,7 +3,7 @@
 This module defines a base class for our models in the clone.
 """
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 class BaseModel:
@@ -41,8 +41,9 @@ class BaseModel:
                 if key != "__class__":
                     setattr(self, key, value)
         else:
-            self.id = str(uuid.uuid4())
+            from models import storage
             self.created_at = datetime.now()
+            self.id = str(uuid.uuid4())
             self.updated_at = datetime.now()
             storage.new(self)
 

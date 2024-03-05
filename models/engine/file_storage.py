@@ -27,9 +27,8 @@ class FileStorage:
             json.dump(serialized_obj, file)
 
     def reload(self):
-        from models import BaseModel
-
         try:
+            from models.base_model import BaseModel
             with open(FileStorage.__file_path, 'r') as file:
                 json_data = json.load(file)
                 for key, value in json_data.items():

@@ -1,113 +1,142 @@
+#!/usr/bin/python3
 import cmd
-import re
-from shlex import split
-
-from models import storage
+from models.__init__ import storage
 from models.base_model import BaseModel
-from models.state import User
-from models.city import State
-from models.place import Place
-from models.amenity import Amenity
-from models.review import Review
-
-
-def parse_args(arg):
-    """
-    simplify arguments that user inputs.
-
-    Args:
-        arg (str): The user input.
-
-    Returns:
-        list: lists simplified arguments.
-    """
-    curly_braces = re.search(r"\{(.*?)\}", arg)
-    brackets = re.search(r"\[(.*?)\]", arg)
-    if curly_braces is None:
-        if brackets is None:
-            return [i.strip(",") for i in split(arg)]
-        else:
-            sequence = split(arg[:brackets.span()[0]])
-            count = [i.strip(",") for i in sequence]
-            count.append(brackets.group())
-            return count
-    else:
-        sequence = split(arg[:curly_braces.span()[0]])
-        count = [i.strip(",") for i in sequence]
-        count.append(curly_braces.group())
-        return count
-
 
 class HBNBCommand(cmd.Cmd):
     """Creates the HolbertonBnB command interpreter."""
 
     prompt = "(hbnb) "
     classes = {
-        "BaseModel",
-        "User",
-        "State",
-        "City",
-        "Place",
-        "Amenity",
-        "Review",
+        'BaseModel': BaseModel
     }
 
-    def blank_line(self):
-        """No execution after empty line is displayed."""
-        pass
-
-    def quit_program(self, arg):
-        """Enter Quit command to exit the program."""
+    def do_quit(self, arg):
+        """Quit command to exit the program."""
         return True
 
-    def EOF_signal(self, arg):
+    def do_EOF(self, arg):
         """EOF signal to exit the program."""
         print("")
         return True
 
-    def manage_invalid_input(self, arg):
-        """manages incorrect user input."""
-        print("*** Unknown syntax: {}".format(arg))
-        return False
+    def emptyline(self):
+        """No execution after empty line is displayed."""
+        pass
 
-    def manage_missing_class(self, arg):
-        """Manages missing class commands."""
-        print("** class doesn't exist **")
-        return False
+    def help_quit(self):
+        """Help message for the quit command."""
+        print("Quit command to exit the program.")
 
-    def manage_missing_instance(self, arg, class_name, instance_id):
-        """Manages missing instance ID commands."""
-        print(f"** no instance found ** ({class_name}.{instance_id})")
-        return False
+    def help_EOF(self):
+        """Help message for the EOF signal."""
+        print("EOF signal to exit the program.")
 
-    def create_instance(self, arg):
-        """Create a new class instance and print the id."""
-        args = parse_args(arg)
-
-        if len(args) == 0:
+    def do_create(self, args):
+        """Create a new instance of a class."""
+        if not args:
             print("** class name missing **")
-        elif args[0] not in self.classes:
-            self.handle_missing_class(arg)
-        elif len(args) == 1:
+            return
+        elif args not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+        new_instance = HBNBCommand.classes[args]()
+        new_instance.save()
+        print(new_instance.id)
+
+    def do_show(self, args):
+        """Print the string representation of an instance."""
+        class_name, instance_id = self._parse_args(args, 2)
+        if not instance_id:
             print("** instance id missing **")
-        else:
-            obj = storage.all().get(f"{args[0]}.{args[1]}")
-            if obj is None:
-                self.handle_missing_instance(arg, args[0], args[1])
-            else:
-                print(obj)
-
-    def destroy_instance(self, arg):
-        """Remove a class."""
-        args = parse_args(arg)
-
-        if len(arg) == 0:
+            return
+        elif not class_name:
             print("** class name missing **")
-        elif args[0] not in self.classes:
-            self.handle_missing_class(arg)
-        elif len(args) == 1:
-            print("** instance id missing **")
+            return
+        elif class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+        key = f"{class_name}.{instance_id}"
+        instance = storage.all().get(key)
+        if not instance:
+            print("** no instance found **")
         else:
-            obj = storage.all().get(f"{args[0]}.{args[1]}")
-            if obj is None:
-                self.handle_missing_instance(arg, args[0], args[1])
+            print(instance)
+
+    def do_destroy(self, args):
+        """Delete an instance based on the class name and id."""
+        class_name, instance_id = self._parse_args(args, 2)
+        if not class_name:
+            print("** class name missing **")
+            return
+        elif class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+        elif not instance_id:
+            print("** instance id missing **")
+            return
+
+        key = f"{class_name}.{instance_id}"
+        instances = storage.all()
+        if key not in instances:
+            print("** no instance found **")
+        else:
+            del instances[key]
+            storage.save()
+
+    def do_all(self, args):
+        """Print all string representations of instances."""
+        if args and args not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+
+        instances = storage.all().values()
+        if args:
+            class_instances = [str(instance) for instance in instances if isinstance(instance, HBNBCommand.classes[args])]
+        else:
+            class_instances = [str(instance) for instance in instances]
+
+        print(class_instances)
+
+    def do_update(self, args):
+        """Update an instance based on the class name and id."""
+        class_name, instance_id, *attributes = self._parse_args(args, 3)
+        if not class_name:
+            print("** class name missing **")
+            return
+        elif class_name not in HBNBCommand.classes:
+            print("** class doesn't exist **")
+            return
+        elif not instance_id:
+            print("** instance id missing **")
+            return
+        elif not attributes:
+            print("** attribute name missing **")
+            return
+        elif len(attributes) == 1:
+            print("** value missing **")
+            return
+
+        key = f"{class_name}.{instance_id}"
+        instances = storage.all()
+        instance = instances.get(key)
+        if not instance:
+            print("** no instance found **")
+            return
+
+        for attr_name, attr_value in zip(attributes[::2], attributes[1::2]):
+            setattr(instance, attr_name, attr_value)
+        instance.save()
+
+    def _parse_args(self, args, expected_length):
+        """Parse command arguments."""
+        parsed_args = args.split()
+        if len(parsed_args) < expected_length:
+            return (None,) * expected_length
+        return tuple(parsed_args)
+
+
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()

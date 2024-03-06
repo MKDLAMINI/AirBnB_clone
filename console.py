@@ -2,13 +2,23 @@
 import cmd
 from models.__init__ import storage
 from models.base_model import BaseModel
+from models.user import User
+from models.place import Place
+from models.city import City
+from models.state import State
+from models.amenity import Amenity
+from models.review import Review
+
 
 class HBNBCommand(cmd.Cmd):
     """Creates the HolbertonBnB command interpreter."""
 
     prompt = "(hbnb) "
-    classes = {
-        'BaseModel': BaseModel
+    bnb_classes = {
+        'BaseModel': BaseModel, 'User': User,
+        'Place': Place, 'City': City,
+        'State': State, 'Amenity': Amenity,
+        'Review': Review
     }
 
     def do_quit(self, arg):
@@ -37,11 +47,11 @@ class HBNBCommand(cmd.Cmd):
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif args not in HBNBCommand.bnb_classes:
             print("** class doesn't exist **")
             return
 
-        new_instance = HBNBCommand.classes[args]()
+        new_instance = HBNBCommand.bnb_classes[args]()
         new_instance.save()
         print(new_instance.id)
 
@@ -54,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
         elif not class_name:
             print("** class name missing **")
             return
-        elif class_name not in HBNBCommand.classes:
+        elif class_name not in HBNBCommand.bnb_classes:
             print("** class doesn't exist **")
             return
 
@@ -71,7 +81,7 @@ class HBNBCommand(cmd.Cmd):
         if not class_name:
             print("** class name missing **")
             return
-        elif class_name not in HBNBCommand.classes:
+        elif class_name not in HBNBCommand.bnb_classes:
             print("** class doesn't exist **")
             return
         elif not instance_id:
@@ -88,13 +98,16 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """Print all string representations of instances."""
-        if args and args not in HBNBCommand.classes:
+        if args and args not in HBNBCommand.bnb_classes:
             print("** class doesn't exist **")
             return
 
         instances = storage.all().values()
         if args:
-            class_instances = [str(instance) for instance in instances if isinstance(instance, HBNBCommand.classes[args])]
+            class_instances = [
+                str(instance) for instance in instances
+                if isinstance(instance, HBNBCommand.bnb_classes[args])
+            ]
         else:
             class_instances = [str(instance) for instance in instances]
 
@@ -106,7 +119,7 @@ class HBNBCommand(cmd.Cmd):
         if not class_name:
             print("** class name missing **")
             return
-        elif class_name not in HBNBCommand.classes:
+        elif class_name not in HBNBCommand.bnb_classes:
             print("** class doesn't exist **")
             return
         elif not instance_id:

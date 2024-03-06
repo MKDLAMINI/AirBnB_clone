@@ -23,23 +23,23 @@ class BaseModel:
             if not self.id:
                 raise ValueError("Missing necessary attribute: id")
 
-            self.created_at = datetime.fromisoformat(
-                kwargs.get("created_at")
-            ) or None
+            self.created_at = kwargs.get("created_at")
+            if self.created_at:
+                self.created_at = datetime.strptime(
+                    self.created_at, '%Y-%m-%dT%H:%M:%S.%f')
+            else:
+                self.created_at = datetime.now()
 
-            if not self.created_at:
-                raise ValueError("Missing necessary attribute: created_at")
+            self.updated_at = kwargs.get("updated_at")
+            if self.updated_at:
+                self.updated_at = datetime.strptime(
+                    self.updated_at, '%Y-%m-%dT%H:%M:%S.%f')
+            else:
+                self.updated_at = datetime.now()
 
-            self.updated_at = datetime.fromisoformat(
-                kwargs.get("updated_at")
-            ) or None
+            del kwargs['__class__']
+            self.__dict__.update(kwargs)
 
-            if not self.updated_at:
-                raise ValueError("Missing necessary attribute: updated_at")
-
-            for key, value in kwargs.items():
-                if key != "__class__":
-                    setattr(self, key, value)
         else:
             from models import storage
             self.created_at = datetime.now()

@@ -29,12 +29,30 @@ class FileStorage:
     def reload(self):
         try:
             from models.base_model import BaseModel
+            from models.user import User
+            from models.place import Place
+            from models.state import State
+            from models.city import City
+            from models.amenity import Amenity
+            from models.review import Review
             with open(FileStorage.__file_path, 'r') as file:
                 json_data = json.load(file)
                 for key, value in json_data.items():
                     class_name, obj_id = key.split('.')
                     if class_name == 'BaseModel':
                         class_ = BaseModel
+                    elif class_name == 'User':
+                        class_ = User
+                    elif class_name == 'Place':
+                        class_ = Place
+                    elif class_name == 'State':
+                        class_ = State
+                    elif class_name == 'City':
+                        class_ = City
+                    elif class_name == 'Amenity':
+                        class_ = Amenity
+                    elif class_name == 'Review':
+                        class_ = Review
                     obj = class_(**value)
                     self.new(obj)
         except FileNotFoundError:

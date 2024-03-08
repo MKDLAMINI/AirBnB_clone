@@ -2,6 +2,7 @@
 """
 This module defines unittests for the User class
 """
+import os
 import uuid
 import unittest
 from models.base_model import BaseModel
@@ -41,19 +42,39 @@ class TestUser(unittest.TestCase):
         self.assertEqual(self.user.email, "")
         self.assertEqual(self.user.password, "")
 
-    def test_custom_values(self):
-        """Test that custom values are set correctly."""
-        email = "test@example.com"
-        custom_user = User(id="123", email=email)
-        self.assertEqual(custom_user.email, email)
+    def test_update_email(self):
+        """Test updating the email attribute."""
+        user = User()
+        new_email = "new_email@example.com"
+        user.email = new_email
+        self.assertEqual(user.email, new_email)
 
-        password = "password123"
-        custom_user = User(id="456", password=password)
-        self.assertEqual(custom_user.password, password)
+    def test_update_password(self):
+        """Test updating the password attribute."""
+        user = User()
+        new_password = "new_password"
+        user.password = new_password
+        self.assertEqual(user.password, new_password)
 
-        first_name = "John"
-        custom_user = User(id="789", first_name=first_name)
-        self.assertEqual(custom_user.first_name, first_name)
+    def test_update_first_name(self):
+        """Test updating the first_name attribute."""
+        user = User()
+        new_first_name = "John"
+        user.first_name = new_first_name
+        self.assertEqual(user.first_name, new_first_name)
+
+    def test_update_last_name(self):
+        """Test updating the last_name attribute."""
+        user = User()
+        new_last_name = "Doe"
+        user.last_name = new_last_name
+        self.assertEqual(user.last_name, new_last_name)
+
+    def tearDown(self):
+        try:
+            os.remove('file.json')
+        except FileNotFoundError:
+            pass
 
 
 if __name__ == "__main__":

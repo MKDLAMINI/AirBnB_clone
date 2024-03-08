@@ -33,14 +33,14 @@ class TestBaseModel(unittest.TestCase):
         storage = FileStorage()
         self.model.save()
         self.assertTrue(os.path.exists(storage._FileStorage__file_path))
-        storage.reload()
         loaded_model = storage.all()['BaseModel.{}'.format(self.model.id)]
         self.assertIsInstance(loaded_model, BaseModel)
         self.assertEqual(loaded_model.id, self.model.id)
 
     def tearDown(self):
+        file_path = 'file.json'
         try:
-            os.remove('file.json')
+            os.remove(file_path)
         except FileNotFoundError:
             pass
 

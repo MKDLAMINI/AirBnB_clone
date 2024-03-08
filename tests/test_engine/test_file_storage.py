@@ -21,6 +21,14 @@ class TestFileStorage(unittest.TestCase):
         key = '{}.{}'.format(model.__class__.__name__, model.id)
         self.assertTrue(key in self.storage._FileStorage__objects)
 
+    def test_empty(self):
+        """ Data is saved to file """
+        new = BaseModel()
+        thing = new.to_dict()
+        new.save()
+        new2 = BaseModel(**thing)
+        self.assertNotEqual(os.path.getsize('file.json'), 0)
+
     def test_save(self):
         model = BaseModel()
         self.storage.new(model)
@@ -28,12 +36,6 @@ class TestFileStorage(unittest.TestCase):
         with open(self.storage._FileStorage__file_path, 'r') as f:
             data = f.read()
             self.assertTrue(data)
-
-    def tearDown(self):
-        try:
-            os.remove('file.json')
-        except FileNotFoundError:
-            pass
 
 
 if __name__ == '__main__':

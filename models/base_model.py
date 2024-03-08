@@ -24,8 +24,10 @@ class BaseModel:
             if not self.id:
                 raise ValueError("Missing necessary attribute: id")
 
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'], date_format)
-            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'], date_format)
+            kwargs['created_at'] = datetime.strptime(
+                kwargs['created_at'], date_format)
+            kwargs['updated_at'] = datetime.strptime(
+                kwargs['updated_at'], date_format)
 
             del kwargs['__class__']
             self.__dict__.update(kwargs)

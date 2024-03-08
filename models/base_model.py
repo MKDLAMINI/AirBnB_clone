@@ -19,23 +19,13 @@ class BaseModel:
             **kwargs (dict): dict of attribute for making a new instance
         """
         if kwargs:
+            date_format = "%Y-%m-%dT%H:%M:%S.%f"
             self.id = kwargs.get("id")
             if not self.id:
                 raise ValueError("Missing necessary attribute: id")
 
-            self.created_at = kwargs.get("created_at")
-            if self.created_at:
-                self.created_at = datetime.strptime(
-                    self.created_at, '%Y-%m-%dT%H:%M:%S.%f')
-            else:
-                self.created_at = datetime.now()
-
-            self.updated_at = kwargs.get("updated_at")
-            if self.updated_at:
-                self.updated_at = datetime.strptime(
-                    self.updated_at, '%Y-%m-%dT%H:%M:%S.%f')
-            else:
-                self.updated_at = datetime.now()
+            kwargs['created_at'] = datetime.strptime(kwargs['created_at'], date_format)
+            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'], date_format)
 
             del kwargs['__class__']
             self.__dict__.update(kwargs)

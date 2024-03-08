@@ -44,15 +44,15 @@ class TestUser(unittest.TestCase):
     def test_custom_values(self):
         """Test that custom values are set correctly."""
         email = "test@example.com"
-        custom_user = User(email=email)
+        custom_user = User(id="123", email=email)
         self.assertEqual(custom_user.email, email)
 
         password = "password123"
-        custom_user = User(password=password)
+        custom_user = User(id="456", password=password)
         self.assertEqual(custom_user.password, password)
 
         first_name = "John"
-        custom_user = User(first_name=first_name)
+        custom_user = User(id="789", first_name=first_name)
         self.assertEqual(custom_user.first_name, first_name)
 
 

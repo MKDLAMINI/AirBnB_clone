@@ -18,24 +18,24 @@ class BaseModel:
             *args (any): Unutilized
             **kwargs (dict): dict of attribute for making a new instance
         """
+        if kwargs.get("id") is not None:
+            self.id = kwargs.get("id")
+        else:
+            self.id = str(uuid.uuid4())
+
         if kwargs:
             date_format = "%Y-%m-%dT%H:%M:%S.%f"
-            self.id = kwargs.get("id")
-            if not self.id:
-                raise ValueError("Missing necessary attribute: id")
 
-            kwargs['created_at'] = datetime.strptime(
-                kwargs['created_at'], date_format)
-            kwargs['updated_at'] = datetime.strptime(
-                kwargs['updated_at'], date_format)
-
-            del kwargs['__class__']
-            self.__dict__.update(kwargs)
+            self.created_at = datetime.strptime(
+                kwargs.get('created_at', datetime.now().strftime(date_format)),
+                date_format)
+            self.updated_at = datetime.strptime(
+                kwargs.get('updated_at', datetime.now().strftime(date_format)),
+                date_format)
 
         else:
             from models import storage
             self.created_at = datetime.now()
-            self.id = str(uuid.uuid4())
             self.updated_at = datetime.now()
             storage.new(self)
 

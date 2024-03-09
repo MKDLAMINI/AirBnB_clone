@@ -40,7 +40,7 @@ class TestAmenity_instantiates(unittest.TestCase):
 
     def test_name_set_correctly(self):
         name = "Swimming Pool"
-        am = Amenity(name)
+        am = Amenity(name=name)
         self.assertEqual(name, am.name)
 
     def test_is_subclass(self):
@@ -66,8 +66,8 @@ class TestAmenity_instantiates(unittest.TestCase):
         self.assertIn("'name': ''", amstr)
 
     def test_args_unused(self):
-        am = Amenity(None)
-        self.assertIsNone(am.name)
+        am = Amenity()
+        self.assertEqual(am.name, "")
 
     def test_amenity_has_attributes_of_basemodel(self):
         am = Amenity()

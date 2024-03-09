@@ -10,9 +10,11 @@ class City(BaseModel):
         state_id (str, optional): The state id. Defaults to "".
         name (str, optional): The name of the city. Defaults to "".
     """
+    state_id = ""
+    name = ""
 
-    def __init__(self, state_id="", name=""):
-        """Starts a new City instance."""
-        super().__init__()
-        self.state_id = state_id
-        self.name = name
+    def __init__(self, *args, **kwargs):
+        """Initializes a new City instance."""
+        super().__init__(*args, **kwargs)
+        self.state_id = kwargs.get("state_id", "")
+        self.name = kwargs.get("name", "")

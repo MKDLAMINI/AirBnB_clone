@@ -11,10 +11,11 @@ class State(BaseModel):
     Args:
         name (str, optional): The name of the state. Defaults to "".
     """
+    name = ""
 
-    def __init__(self, name=""):
+    def __init__(self, *args, **kwargs):
         """
-        Start a new State instance.
+        Initializes a new State instance.
         """
-        super().__init__()
-        self.name = name
+        super().__init__(*args, **kwargs)
+        self.name = kwargs.get("name", "")

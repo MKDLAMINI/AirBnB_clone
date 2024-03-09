@@ -9,8 +9,9 @@ class Amenity(BaseModel):
     Args:
         name (str, optional): The name of the amenity. Defaults to "".
     """
+    name = ""
 
-    def __init__(self, name=""):
+    def __init__(self, *args, **kwargs):
         """Starts a new Amenity instance."""
-        super().__init__()
-        self.name = name
+        super().__init__(*args, **kwargs)
+        self.name = kwargs.get("name", "")

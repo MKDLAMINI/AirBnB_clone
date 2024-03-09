@@ -11,10 +11,15 @@ class Review(BaseModel):
         user_id (str, optional): The User id. Defaults to "".
         text (str, optional): The text of the review. Defaults to "".
     """
+    place_id = ""
+    user_id = ""
+    text = ""
 
-    def __init__(self, place_id="", user_id="", text=""):
-        """Start a new Review instance."""
-        super().__init__()
-        self.place_id = place_id
-        self.user_id = user_id
-        self.text = text
+    def __init__(self, *args, **kwargs):
+        """
+        Initializes a new Review instance.
+        """
+        super().__init__(*args, **kwargs)
+        self.place_id = kwargs.get("place_id", "")
+        self.user_id = kwargs.get("user_id", "")
+        self.text = kwargs.get("text", "")

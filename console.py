@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+This module defines our bnb console
+"""
 import cmd
 from models.__init__ import storage
 from models.base_model import BaseModel

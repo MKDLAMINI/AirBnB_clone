@@ -119,6 +119,23 @@ class HBNBCommand(cmd.Cmd):
             del instances[key]
             storage.save()
 
+    def do_count(self, args):
+        """
+        Count the number of instances of a class.
+        """
+        count_class = args.strip()
+        if count_class not in HBNBCommand.bnb_classes:
+            print("** class doesn't exist **")
+            return
+
+        total_count = 0
+        all_instances = storage.all().values()
+        for instance in all_instances:
+            if isinstance(instance, self.bnb_classes[count_class]):
+                total_count += 1
+
+        print(total_count)
+
     def do_all(self, arg):
         """
         Print the string representation of all instances or a specific class.
@@ -155,6 +172,7 @@ class HBNBCommand(cmd.Cmd):
         method_name = command[0]
         method_dict = {
             'all': 'do_all',
+            'count': 'do_count'
         }
         if method_name in method_dict:
             method = getattr(self, method_dict[method_name])

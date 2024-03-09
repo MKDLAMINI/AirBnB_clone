@@ -30,11 +30,11 @@ class Place(BaseModel):
     longitude = 0.0
     amenity_ids = []
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         """
         Initializes a new Place instance.
         """
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
         self.city_id = kwargs.get("city_id", "")
         self.user_id = kwargs.get("user_id", "")
         self.name = kwargs.get("name", "")

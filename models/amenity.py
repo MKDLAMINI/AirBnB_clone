@@ -11,7 +11,7 @@ class Amenity(BaseModel):
     """
     name = ""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         """Starts a new Amenity instance."""
-        super().__init__(*args, **kwargs)
+        super().__init__(**kwargs)
         self.name = kwargs.get("name", "")

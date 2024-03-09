@@ -8,7 +8,9 @@ from models.review import Review
 
 
 class TestReview(unittest.TestCase):
-    """Unit tests for the Review class."""
+    """
+    Unit tests for the Review class.
+    """
 
     def test_default_values(self):
         review = Review()

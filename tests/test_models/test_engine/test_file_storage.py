@@ -9,6 +9,9 @@ from models.base_model import BaseModel
 
 
 class TestFileStorage(unittest.TestCase):
+    """
+    This class defines unit tests for the FileStorage class
+    """
     def setUp(self):
         self.storage = FileStorage()
 

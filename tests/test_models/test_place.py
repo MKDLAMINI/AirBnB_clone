@@ -8,7 +8,9 @@ from models.place import Place
 
 
 class TestPlace(unittest.TestCase):
-    """Unit tests for the Place class."""
+    """
+    Unit tests for the Place class.
+    """
 
     def test_default_values(self):
         place = Place()

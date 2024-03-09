@@ -8,7 +8,9 @@ from models.city import City
 
 
 class TestCity(unittest.TestCase):
-    """Unit tests for the City class."""
+    """
+    Unit tests for the City class.
+    """
 
     def test_default_values(self):
         """

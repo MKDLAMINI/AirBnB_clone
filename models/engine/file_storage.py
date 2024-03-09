@@ -13,13 +13,25 @@ class FileStorage:
     __objects = {}
 
     def all(self):
+        """
+        Returns all object instances.
+        """
         return FileStorage.__objects
 
     def new(self, obj):
+        """
+        Adds new object to storage.
+
+        Args:
+            obj: The object to be added.
+        """
         key = "{}.{}".format(obj.__class__.__name__, obj.id)
         FileStorage.__objects[key] = obj
 
     def save(self):
+        """
+        Serialise and save objects to a JSON file.
+        """
         serialized_obj = {}
         for key, obj_val in FileStorage.__objects.items():
             serialized_obj[key] = obj_val.to_dict()
@@ -27,6 +39,9 @@ class FileStorage:
             json.dump(serialized_obj, file)
 
     def reload(self):
+        """
+        Load objects from JSON file into memory.
+        """
         try:
             from models.base_model import BaseModel
             from models.user import User

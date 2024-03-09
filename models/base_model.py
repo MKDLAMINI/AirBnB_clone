@@ -40,15 +40,24 @@ class BaseModel:
             storage.new(self)
 
     def __str__(self):
+        """
+        Returns string representation of the object.
+        """
         return "[{}] ({}) {}".format(
             self.__class__.__name__, self.id, self.__dict__)
 
     def save(self):
+        """
+        Save the object to storage.
+        """
         from models import storage
         self.updated_at = datetime.now()
         storage.save()
 
     def to_dict(self):
+        """
+        Convert the object into a dictionary representation.
+        """
         bnb_dict = {}
         bnb_dict = self.__dict__.copy()
         bnb_dict['__class__'] = self.__class__.__name__

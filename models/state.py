@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""Defines the state class."""
+"""
+Defines the state class.
+"""
 from models.base_model import BaseModel
 
 
@@ -11,6 +13,8 @@ class State(BaseModel):
     """
 
     def __init__(self, name=""):
-        """Start a new State instance."""
+        """
+        Start a new State instance.
+        """
         super().__init__()
         self.name = name

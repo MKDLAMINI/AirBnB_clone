@@ -4,7 +4,9 @@ from models.base_model import BaseModel
 
 
 class User(BaseModel):
-    """define a User."""
+    """
+    Defines the User class.
+    """
 
     email = ""
     password = ""
@@ -12,7 +14,8 @@ class User(BaseModel):
     last_name = ""
 
     def __init__(self, **kwargs):
-        """Start a new User instance.
+        """
+        Start a new User instance.
 
         Args:
             kwargs (dict): A dictionary of attributes for the user.

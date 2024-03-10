@@ -30,7 +30,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, arg):
         """
-        Quit command to exit the program.
+        Quit command exits the program.
         """
         return True
 
@@ -215,10 +215,10 @@ class HBNBCommand(cmd.Cmd):
 
     def _parse_args(self, args, expected_length):
         """Parse command arguments."""
-        parsed_args = args.split()
-        if len(parsed_args) < expected_length:
+        parsed_arguments = args.split()
+        if len(parsed_arguments) < expected_length:
             return (None,) * expected_length
-        return tuple(parsed_args)
+        return tuple(parsed_arguments)
 
 
 if __name__ == '__main__':

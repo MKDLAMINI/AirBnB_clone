@@ -25,16 +25,16 @@ class FileStorage:
         Args:
             obj: The object to be added.
         """
-        key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        FileStorage.__objects[key] = obj
+        token = "{}.{}".format(obj.__class__.__name__, obj.id)
+        FileStorage.__objects[token] = obj
 
     def save(self):
         """
         Serialise and save objects to a JSON file.
         """
         serialized_obj = {}
-        for key, obj_val in FileStorage.__objects.items():
-            serialized_obj[key] = obj_val.to_dict()
+        for token, obj_val in FileStorage.__objects.items():
+            serialized_obj[token] = obj_val.to_dict()
         with open(FileStorage.__file_path, 'w') as file:
             json.dump(serialized_obj, file)
 
@@ -52,8 +52,8 @@ class FileStorage:
             from models.review import Review
             with open(FileStorage.__file_path, 'r') as file:
                 json_data = json.load(file)
-                for key, value in json_data.items():
-                    class_name, obj_id = key.split('.')
+                for token, data in json_data.items():
+                    class_name, obj_id = token.split('.')
                     if class_name == 'BaseModel':
                         class_ = BaseModel
                     elif class_name == 'User':
@@ -68,7 +68,7 @@ class FileStorage:
                         class_ = Amenity
                     elif class_name == 'Review':
                         class_ = Review
-                    obj = class_(**value)
+                    obj = class_(**data)
                     self.new(obj)
         except FileNotFoundError:
             pass

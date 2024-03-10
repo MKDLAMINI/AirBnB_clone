@@ -40,14 +40,14 @@ class TestCity(unittest.TestCase):
         self.assertEqual(city.state_id, "54321")
 
     def test_to_dict(self):
-        city = City(state_id="12345", name="New York")
+        city = City(state_id="1234567", name="Houston")
         city_dict = city.to_dict()
         self.assertIn("id", city_dict)
         self.assertIn("state_id", city_dict)
         self.assertIn("name", city_dict)
         self.assertIn("__class__", city_dict)
-        self.assertEqual(city_dict["state_id"], "12345")
-        self.assertEqual(city_dict["name"], "New York")
+        self.assertEqual(city_dict["state_id"], "1234567")
+        self.assertEqual(city_dict["name"], "Houston")
         self.assertEqual(city_dict["__class__"], "City")
 
 

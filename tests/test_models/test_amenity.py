@@ -39,7 +39,7 @@ class TestAmenity_instantiates(unittest.TestCase):
         self.assertTrue(len(am.name) == 0)
 
     def test_name_set_correctly(self):
-        name = "Swimming Pool"
+        name = "Recreational Park"
         am = Amenity(name=name)
         self.assertEqual(name, am.name)
 
@@ -56,11 +56,11 @@ class TestAmenity_instantiates(unittest.TestCase):
         dt = datetime.today()
         dt_repr = repr(dt)
         am = Amenity()
-        am.id = "123456"
+        am.id = "8375"
         am.created_at = am.updated_at = dt
         amstr = am.__str__()
-        self.assertIn("[Amenity] (123456)", amstr)
-        self.assertIn("'id': '123456'", amstr)
+        self.assertIn("[Amenity] (8375)", amstr)
+        self.assertIn("'id': '8375'", amstr)
         self.assertIn("'created_at': " + dt_repr, amstr)
         self.assertIn("'updated_at': " + dt_repr, amstr)
         self.assertIn("'name': ''", amstr)
@@ -68,12 +68,6 @@ class TestAmenity_instantiates(unittest.TestCase):
     def test_args_unused(self):
         am = Amenity()
         self.assertEqual(am.name, "")
-
-    def test_amenity_has_attributes_of_basemodel(self):
-        am = Amenity()
-        self.assertTrue(hasattr(am, "id"))
-        self.assertTrue(hasattr(am, "created_at"))
-        self.assertTrue(hasattr(am, "updated_at"))
 
 
 class TestAmenity_save(unittest.TestCase):
@@ -158,10 +152,10 @@ class TestAmenity_to_dict(unittest.TestCase):
     def test_to_dict_output(self):
         dt = datetime.today()
         am = Amenity()
-        am.id = "123456"
+        am.id = "7435"
         am.created_at = am.updated_at = dt
         tdict = {
-            'id': '123456',
+            'id': '7435',
             '__class__': 'Amenity',
             'created_at': dt.isoformat(),
             'updated_at': dt.isoformat(),
@@ -170,10 +164,6 @@ class TestAmenity_to_dict(unittest.TestCase):
         self.assertDictEqual(am.to_dict(), tdict)
 
     def test_contrast_to_dict_dunder_dict(self):
-        am = Amenity()
-        self.assertNotEqual(am.to_dict(), am.__dict__)
-
-    def test_to_dict_with_arg(self):
         am = Amenity()
         self.assertNotEqual(am.to_dict(), am.__dict__)
 

@@ -1,11 +1,11 @@
---2024-03-14 08:11:27--  https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/268/logo.png
-Resolving s3.amazonaws.com (s3.amazonaws.com)... 52.216.29.222, 16.182.98.24, 54.231.192.64, ...
-Connecting to s3.amazonaws.com (s3.amazonaws.com)|52.216.29.222|:443... connected.
+--2024-03-14 08:14:33--  https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/268/logo.png
+Resolving s3.amazonaws.com (s3.amazonaws.com)... 52.217.165.176, 52.217.94.94, 54.231.136.232, ...
+Connecting to s3.amazonaws.com (s3.amazonaws.com)|52.217.165.176|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 9876 (9.6K) [image/png]
-Saving to: ‘logo.png’
+Saving to: ‘logo.png.1’
 
-     0K .........                                             100%  158M=0s
+     0K .........                                             100%  163M=0s
 
-2024-03-14 08:11:27 (158 MB/s) - ‘logo.png’ saved [9876/9876]
+2024-03-14 08:14:33 (163 MB/s) - ‘logo.png.1’ saved [9876/9876]
 

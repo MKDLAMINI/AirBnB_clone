@@ -9,5 +9,5 @@ header {
 
 header .logo_png {
   margin-left: 20px;
-  content: url("../images/logo.png")
-]
+  content: url("../images/logo.png");
+}
